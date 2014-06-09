@@ -109,107 +109,37 @@ int main(int argc, char** argv) {
 		write(STDOUT_FILENO, &c, 1); // if new data is available on the serial port, print it out
 	}
 	write(tty_fd, cmd, sizeof(cmd));
+
 	sleep(2);
 	while (read(tty_fd, &c, 1) > 0) {
 		write(STDOUT_FILENO, &c, 1); // if new data is available on the serial port, print it out
 	}
 
+	//close(tty_fd);
+	//tcsetattr(STDOUT_FILENO, TCSANOW, &old_stdio);
+
+	//tty_fd = open("/dev/ttyACM0", O_RDWR | O_NONBLOCK);
+	//cfsetospeed(&tio, B230400);            // 230400 baud
+	//cfsetispeed(&tio, B230400);            // 230400 baud
+	//tcsetattr(tty_fd, TCSANOW, &tio);
+
 	mavlink_message_t msg;
 	mavlink_status_t status;
+
 	while (true) {
 		if (read(tty_fd, &c, 1) > 0) {
 			if (mavlink_parse_char(MAVLINK_COMM_0, c, &msg, &status)) {
-
 				// Handle message
 				switch (msg.msgid) {
-				case MAVLINK_MSG_ID_HEARTBEAT: {
-					mavlink_heartbeat_t hb;
-					mavlink_msg_heartbeat_decode(&msg, &hb);
-					// E.g. read GCS heartbeat and go into
-					// comm lost mode if timer times out
-					//printf("mavlink_heartbeat_t\n");
+				case MAVLINK_MSG_ID_HEARTBEAT:
 					break;
-				}
-				case MAVLINK_MSG_ID_SYS_STATUS: {
-					mavlink_sys_status_t s;
-					mavlink_msg_sys_status_decode(&msg, &s);
-					//printf("mavlink_sys_status_t\n");
-					break;
-				}
-				case MAVLINK_MSG_ID_STATUSTEXT: {
-					mavlink_statustext_t s;
-					mavlink_msg_statustext_decode(&msg, &s);
-					printf("status %s\n", s.text);
-					break;
-				}
-				case MAV_COMPONENT_ENUM_END: {
-					//check
-					break;
-				}
-				case MAVLINK_MSG_ID_OPTICAL_FLOW: {
-					mavlink_optical_flow_t of;
-					mavlink_msg_optical_flow_decode(&msg, &of);
-					//printf("optical flow: f_x=%i f_y=%i\n",					//
-					//		(int) of.flow_x, (int) of.flow_y);				//
-					break;
-				}
-				case MAVLINK_MSG_ID_HIGHRES_IMU: {
-					mavlink_highres_imu_t hr;
-					mavlink_msg_highres_imu_decode(&msg, &hr);
-					printf(
-							"highres imu: time=%f press=%f temp=%f acc={%f,%f,%f} gyro={%f,%f,%f} mag={%f,%f,%f}\n",//
-							(float) hr.time_usec, hr.abs_pressure,
-							hr.temperature, hr.xacc, hr.yacc, hr.zacc, hr.xgyro,
-							hr.ygyro, hr.zgyro, hr.xmag, hr.ymag, hr.zmag);	//
-					break;
-				}
-				case MAVLINK_MSG_ID_GPS_RAW_INT: {
-					mavlink_gps_raw_int_t gpsri;
-					mavlink_msg_gps_raw_int_decode(&msg, &gpsri);
-					//printf("mavlink_gps_raw_int_t\n");
-					break;
-				}
-				case MAVLINK_MSG_ID_ATTITUDE: {
-					mavlink_attitude_t a;
-					mavlink_msg_attitude_decode(&msg, &a);
-					//printf("mavlink_attitude_t\n");
-					break;
-				}
-				case MAVLINK_MSG_ID_LOCAL_POSITION_NED: {
-					mavlink_local_position_ned_t ned;
-					mavlink_msg_local_position_ned_decode(&msg, &ned);
-					//printf("mavlink_local_position_ned_t\n");
-					break;
-				}
-				case MAVLINK_MSG_ID_SERVO_OUTPUT_RAW: {
-					mavlink_servo_output_raw_t s;
-					mavlink_msg_servo_output_raw_decode(&msg, &s);
-					//printf("mavlink_servo_output_raw_t\n");
-					break;
-				}
-				case MAVLINK_MSG_ID_ROLL_PITCH_YAW_THRUST_SETPOINT: {
-					mavlink_roll_pitch_yaw_thrust_setpoint_t s;
-					mavlink_msg_roll_pitch_yaw_thrust_setpoint_decode(&msg, &s);
-					//printf("mavlink_roll_pitch_yaw_thrust_setpoint_t\n");
-					break;
-				}
-				case MAVLINK_MSG_ID_VFR_HUD: {
-					mavlink_vfr_hud_t h;
-					mavlink_msg_vfr_hud_decode(&msg, &h);
-					//printf("mavlink_vfr_hud_t\n");
-					break;
-				}
 				case MAVLINK_MSG_ID_COMMAND_LONG:
 					// EXECUTE ACTION
 					break;
 				default:
-					printf("unbekannte msg mit id %u \n",
-							(unsigned int) msg.msgid);
 					//Do nothing
 					break;
 				}
-				//c = msg.sysid;
-				//write(STDOUT_FILENO, &c, 1); // if new data is available on the serial port, print it out
 			}
 
 		}
