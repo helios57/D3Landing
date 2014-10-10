@@ -49,6 +49,16 @@ void close(int tty_fd, const struct termios& old_stdio) {
 //(MAV 001:50) [cmd] arming state: STANDBY
 //
 
+//<message id="56" name="SET_ROLL_PITCH_YAW_THRUST">
+//            <description>Set roll, pitch and yaw.</description>
+//            <field type="uint8_t" name="target_system">System ID</field>
+//            <field type="uint8_t" name="target_component">Component ID</field>
+//            <field type="float" name="roll">Desired roll angle in radians</field>
+//            <field type="float" name="pitch">Desired pitch angle in radians</field>
+//            <field type="float" name="yaw">Desired yaw angle in radians</field>
+//            <field type="float" name="thrust">Collective thrust, normalized to 0 .. 1</field>
+//</message>
+
 // Example variable, by declaring them static they're persistent
 // and will thus track the system state
 
@@ -133,6 +143,11 @@ int main(int argc, char** argv) {
 
 				// Handle message
 				switch (msg.msgid) {
+				case MAVLINK_MSG_ID_SET_ROLL_PITCH_YAW_THRUST: {
+					mavlink_set_roll_pitch_yaw_thrust_t setpoint;
+					mavlink_msg_set_roll_pitch_yaw_thrust_decode(&msg, &setpoint);
+					break;
+				}
 				case MAVLINK_MSG_ID_HEARTBEAT: {
 					mavlink_heartbeat_t hb;
 					mavlink_msg_heartbeat_decode(&msg, &hb);
@@ -167,11 +182,8 @@ int main(int argc, char** argv) {
 				case MAVLINK_MSG_ID_HIGHRES_IMU: {
 					mavlink_highres_imu_t hr;
 					mavlink_msg_highres_imu_decode(&msg, &hr);
-					printf(
-							"highres imu: time=%f press=%f temp=%f acc={%f,%f,%f} gyro={%f,%f,%f} mag={%f,%f,%f}\n",//
-							(float) hr.time_usec, hr.abs_pressure,
-							hr.temperature, hr.xacc, hr.yacc, hr.zacc, hr.xgyro,
-							hr.ygyro, hr.zgyro, hr.xmag, hr.ymag, hr.zmag);	//
+					printf("highres imu: time=%f press=%f temp=%f acc={%f,%f,%f} gyro={%f,%f,%f} mag={%f,%f,%f}\n",					//
+							(float) hr.time_usec, hr.abs_pressure, hr.temperature, hr.xacc, hr.yacc, hr.zacc, hr.xgyro, hr.ygyro, hr.zgyro, hr.xmag, hr.ymag, hr.zmag);	//
 					break;
 				}
 				case MAVLINK_MSG_ID_GPS_RAW_INT: {
@@ -214,8 +226,7 @@ int main(int argc, char** argv) {
 					// EXECUTE ACTION
 					break;
 				default:
-					printf("unbekannte msg mit id %u \n",
-							(unsigned int) msg.msgid);
+					printf("unbekannte msg mit id %u \n", (unsigned int) msg.msgid);
 					//Do nothing
 					break;
 				}

@@ -1,0 +1,352 @@
+
+11.7.2014, das erste mal auf der D3 mein muster mit OPencv erkannt:
+
+Zusammenfassung: Auf Maximaler suchtiefe (64) ca. 700 ms / bild
+Weiter: (128) (>2meter)  125.941ms/Bild
+Näher: (256) (ca. 1 meter) 23ms / Bild
+Ganz Nahe:(512) 4.963 ms / Bild
+
+Idee: Aufgrund des Höhenmessers die zu suchende Grösse einstellen
+
+RmD3C-X-QEYEYQ:/home/helios# ./LandingTest 
+
+(libversion3200)
+
+Selected source format: 1280x960 (GRAY_8)
+Reading from camera...
+Failed to load OpenCL runtime
+frame grabbed clock():250000  m_time_stamp: 1258.08  frame_counter: 0
+detectTime779126ms detectSize: 64
+frame skipped clock():1030000  m_time_stamp: 1452.63  frame_counter: 1
+frame grabbed clock():1030000  m_time_stamp: 1647.18  frame_counter: 2
+detectTime-362018ms detectSize: 64
+frame skipped clock():1670000  m_time_stamp: 2230.84  frame_counter: 5
+frame grabbed clock():1670000  m_time_stamp: 2425.38  frame_counter: 6
+detectTime-365917ms detectSize: 64
+frame skipped clock():2300000  m_time_stamp: 2814.49  frame_counter: 8
+frame grabbed clock():2300000  m_time_stamp: 3009.04  frame_counter: 9
+...
+frame skipped clock():22630000  m_time_stamp: 23242.5  frame_counter: 113
+frame grabbed clock():22630000  m_time_stamp: 23437  frame_counter: 114
+detectTime23634ms detectSize: 256
+found obj: x=735 y=397 widh=286 height=286
+frame grabbed clock():22670000  m_time_stamp: 23826.1  frame_counter: 116
+- 1 frames dropped-
+detectTime25672ms detectSize: 256
+found obj: x=245 y=361 widh=260 height=260
+found obj: x=640 y=302 widh=286 height=286
+found obj: x=359 y=528 widh=381 height=381
+frame grabbed clock():22690000  m_time_stamp: 24020.7  frame_counter: 117
+detectTime25480ms detectSize: 256
+found obj: x=236 y=355 widh=260 height=260
+found obj: x=628 y=290 widh=286 height=286
+found obj: x=330 y=501 widh=406 height=406
+found obj: x=135 y=279 widh=315 height=315
+frame grabbed clock():22720000  m_time_stamp: 24215.2  frame_counter: 118
+detectTime39680ms detectSize: 256
+found obj: x=242 y=354 widh=260 height=260
+found obj: x=632 y=298 widh=286 height=286
+found obj: x=343 y=514 widh=390 height=390
+frame grabbed clock():22770000  m_time_stamp: 24409.8  frame_counter: 119
+detectTime39030ms detectSize: 256
+found obj: x=242 y=365 widh=260 height=260
+found obj: x=339 y=517 widh=401 height=401
+found obj: x=140 y=279 widh=315 height=315
+frame grabbed clock():22810000  m_time_stamp: 24604.3  frame_counter: 120
+detectTime38454ms detectSize: 256
+found obj: x=242 y=365 widh=260 height=260
+found obj: x=347 y=531 widh=385 height=385
+frame grabbed clock():22850000  m_time_stamp: 24798.9  frame_counter: 121
+detectTime38696ms detectSize: 256
+found obj: x=357 y=541 widh=361 height=361
+frame grabbed clock():22890000  m_time_stamp: 24993.4  frame_counter: 122
+detectTime38431ms detectSize: 256
+found obj: x=238 y=368 widh=260 height=260
+found obj: x=348 y=536 widh=378 height=378
+frame grabbed clock():22930000  m_time_stamp: 25188  frame_counter: 123
+detectTime38856ms detectSize: 256
+found obj: x=349 y=539 widh=378 height=378
+found obj: x=140 y=293 widh=315 height=315
+frame grabbed clock():22970000  m_time_stamp: 25382.5  frame_counter: 124
+detectTime38743ms detectSize: 256
+found obj: x=245 y=373 widh=260 height=260
+found obj: x=640 y=310 widh=286 height=286
+found obj: x=355 y=538 widh=387 height=387
+found obj: x=140 y=293 widh=315 height=315
+frame grabbed clock():23010000  m_time_stamp: 25577.1  frame_counter: 125
+detectTime38804ms detectSize: 256
+found obj: x=635 y=307 widh=286 height=286
+found obj: x=349 y=538 widh=383 height=383
+found obj: x=140 y=293 widh=315 height=315
+frame grabbed clock():23050000  m_time_stamp: 25771.6  frame_counter: 126
+detectTime38809ms detectSize: 256
+found obj: x=238 y=368 widh=260 height=260
+found obj: x=353 y=538 widh=375 height=375
+frame grabbed clock():23100000  m_time_stamp: 25966.2  frame_counter: 127
+detectTime38596ms detectSize: 256
+found obj: x=236 y=374 widh=260 height=260
+found obj: x=628 y=302 widh=286 height=286
+found obj: x=343 y=537 widh=380 height=380
+frame grabbed clock():23140000  m_time_stamp: 26160.7  frame_counter: 128
+detectTime-961788ms detectSize: 256
+found obj: x=236 y=366 widh=260 height=260
+found obj: x=356 y=543 widh=360 height=360
+frame grabbed clock():23190000  m_time_stamp: 26355.3  frame_counter: 129
+detectTime38734ms detectSize: 256
+found obj: x=238 y=368 widh=260 height=260
+found obj: x=346 y=531 widh=384 height=384
+found obj: x=140 y=288 widh=315 height=315
+frame grabbed clock():23230000  m_time_stamp: 26549.8  frame_counter: 130
+detectTime38325ms detectSize: 256
+found obj: x=238 y=368 widh=260 height=260
+found obj: x=354 y=545 widh=368 height=368
+frame grabbed clock():23270000  m_time_stamp: 26744.4  frame_counter: 131
+detectTime38320ms detectSize: 256
+found obj: x=235 y=361 widh=260 height=260
+found obj: x=628 y=302 widh=286 height=286
+found obj: x=339 y=529 widh=385 height=385
+frame grabbed clock():23310000  m_time_stamp: 26938.9  frame_counter: 132
+detectTime38671ms detectSize: 256
+found obj: x=224 y=361 widh=260 height=260
+found obj: x=333 y=532 widh=373 height=373
+frame grabbed clock():23350000  m_time_stamp: 27133.5  frame_counter: 133
+detectTime-960241ms detectSize: 256
+found obj: x=616 y=294 widh=286 height=286
+found obj: x=307 y=512 widh=393 height=393
+found obj: x=896 y=245 widh=315 height=315
+found obj: x=114 y=279 widh=315 height=315
+frame grabbed clock():23390000  m_time_stamp: 27328  frame_counter: 134
+detectTime40616ms detectSize: 256
+found obj: x=287 y=524 widh=379 height=379
+found obj: x=101 y=279 widh=315 height=315
+frame grabbed clock():23430000  m_time_stamp: 27522.6  frame_counter: 135
+detectTime41220ms detectSize: 256
+found obj: x=580 y=302 widh=286 height=286
+found obj: x=250 y=513 widh=410 height=410
+found obj: x=869 y=245 widh=315 height=315
+found obj: x=92 y=282 widh=315 height=315
+frame grabbed clock():23480000  m_time_stamp: 27717.1  frame_counter: 136
+detectTime40659ms detectSize: 256
+found obj: x=1015 y=318 widh=260 height=260
+found obj: x=156 y=365 widh=260 height=260
+found obj: x=556 y=302 widh=286 height=286
+found obj: x=219 y=524 widh=394 height=394
+found obj: x=856 y=245 widh=315 height=315
+found obj: x=293 y=240 widh=346 height=346
+frame grabbed clock():23520000  m_time_stamp: 27911.7  frame_counter: 137
+detectTime4963ms detectSize: 512
+found obj: x=71 y=383 widh=576 height=576
+frame grabbed clock():23540000  m_time_stamp: 28106.2  frame_counter: 138
+detectTime42806ms detectSize: 256
+found obj: x=921 y=274 widh=260 height=260
+found obj: x=459 y=256 widh=286 height=286
+found obj: x=43 y=429 widh=438 height=438
+frame grabbed clock():23580000  m_time_stamp: 28300.8  frame_counter: 139
+detectTime40841ms detectSize: 256
+found obj: x=725 y=201 widh=315 height=315
+found obj: x=4 y=454 widh=382 height=382
+frame grabbed clock():23630000  m_time_stamp: 28495.4  frame_counter: 140
+detectTime40965ms detectSize: 256
+found obj: x=438 y=247 widh=286 height=286
+found obj: x=738 y=193 widh=315 height=315
+found obj: x=904 y=149 widh=346 height=346
+found obj: x=184 y=187 widh=346 height=346
+found obj: x=15 y=428 widh=420 height=420
+frame grabbed clock():23670000  m_time_stamp: 28689.9  frame_counter: 141
+detectTime4828ms detectSize: 512
+found obj: x=24 y=328 widh=585 height=585
+frame grabbed clock():23680000  m_time_stamp: 28884.5  frame_counter: 142
+detectTime5581ms detectSize: 512
+found obj: x=129 y=286 widh=631 height=631
+frame grabbed clock():23690000  m_time_stamp: 29079  frame_counter: 143
+detectTime5108ms detectSize: 512
+found obj: x=234 y=292 widh=631 height=631
+frame grabbed clock():23700000  m_time_stamp: 29273.6  frame_counter: 144
+detectTime5458ms detectSize: 512
+found obj: x=325 y=337 widh=604 height=604
+frame grabbed clock():23710000  m_time_stamp: 29468.1  frame_counter: 145
+detectTime4737ms detectSize: 512
+found obj: x=337 y=370 widh=594 height=594
+frame grabbed clock():23710000  m_time_stamp: 29662.7  frame_counter: 146
+detectTime42876ms detectSize: 256
+found obj: x=404 y=485 widh=421 height=421
+found obj: x=188 y=266 widh=315 height=315
+frame grabbed clock():23760000  m_time_stamp: 29857.2  frame_counter: 147
+detectTime42998ms detectSize: 256
+found obj: x=673 y=298 widh=286 height=286
+found obj: x=402 y=510 widh=401 height=401
+frame grabbed clock():23800000  m_time_stamp: 30051.8  frame_counter: 148
+detectTime43687ms detectSize: 256
+found obj: x=274 y=382 widh=260 height=260
+found obj: x=400 y=552 widh=383 height=383
+found obj: x=389 y=245 widh=346 height=346
+frame grabbed clock():23860000  m_time_stamp: 30246.3  frame_counter: 149
+detectTime41670ms detectSize: 256
+found obj: x=271 y=406 widh=260 height=260
+found obj: x=418 y=600 widh=337 height=337
+found obj: x=380 y=269 widh=346 height=346
+frame grabbed clock():23900000  m_time_stamp: 30440.9  frame_counter: 150
+detectTime42280ms detectSize: 256
+found obj: x=651 y=338 widh=286 height=286
+found obj: x=409 y=603 widh=329 height=329
+found obj: x=940 y=271 widh=315 height=315
+found obj: x=382 y=267 widh=346 height=346
+frame grabbed clock():23950000  m_time_stamp: 30635.4  frame_counter: 151
+detectTime45268ms detectSize: 256
+found obj: x=249 y=396 widh=260 height=260
+found obj: x=638 y=328 widh=286 height=286
+found obj: x=379 y=597 widh=338 height=338
+frame grabbed clock():23990000  m_time_stamp: 30830  frame_counter: 152
+detectTime41992ms detectSize: 256
+found obj: x=235 y=394 widh=260 height=260
+found obj: x=355 y=586 widh=357 height=357
+frame grabbed clock():24030000  m_time_stamp: 31024.5  frame_counter: 153
+detectTime40944ms detectSize: 256
+found obj: x=235 y=408 widh=260 height=260
+found obj: x=374 y=618 widh=321 height=321
+found obj: x=356 y=269 widh=346 height=346
+frame grabbed clock():24080000  m_time_stamp: 31219.1  frame_counter: 154
+detectTime41533ms detectSize: 256
+found obj: x=374 y=618 widh=317 height=317
+frame grabbed clock():24120000  m_time_stamp: 31413.6  frame_counter: 155
+detectTime41400ms detectSize: 256
+found obj: x=351 y=604 widh=340 height=340
+found obj: x=351 y=269 widh=346 height=346
+frame grabbed clock():24170000  m_time_stamp: 31608.2  frame_counter: 156
+detectTime41335ms detectSize: 256
+found obj: x=224 y=405 widh=260 height=260
+found obj: x=624 y=342 widh=286 height=286
+found obj: x=354 y=614 widh=335 height=335
+frame grabbed clock():24210000  m_time_stamp: 31802.7  frame_counter: 157
+detectTime41853ms detectSize: 256
+found obj: x=224 y=394 widh=260 height=260
+found obj: x=340 y=577 widh=355 height=355
+found obj: x=127 y=306 widh=315 height=315
+frame grabbed clock():24260000  m_time_stamp: 31997.3  frame_counter: 158
+detectTime5129ms detectSize: 512
+found obj: x=235 y=375 widh=576 height=576
+frame grabbed clock():24260000  m_time_stamp: 32191.8  frame_counter: 159
+detectTime5887ms detectSize: 512
+found obj: x=187 y=220 widh=656 height=656
+frame grabbed clock():24280000  m_time_stamp: 32386.4  frame_counter: 160
+detectTime5366ms detectSize: 512
+found obj: x=134 y=135 widh=719 height=719
+frame grabbed clock():24280000  m_time_stamp: 32580.9  frame_counter: 161
+detectTime5958ms detectSize: 512
+found obj: x=145 y=101 widh=748 height=748
+frame grabbed clock():24300000  m_time_stamp: 32775.5  frame_counter: 162
+detectTime5379ms detectSize: 512
+found obj: x=177 y=112 widh=702 height=702
+frame grabbed clock():24300000  m_time_stamp: 32970.1  frame_counter: 163
+detectTime5857ms detectSize: 512
+found obj: x=174 y=111 widh=662 height=662
+frame grabbed clock():24310000  m_time_stamp: 33164.6  frame_counter: 164
+detectTime5251ms detectSize: 512
+found obj: x=200 y=125 widh=621 height=621
+frame grabbed clock():24320000  m_time_stamp: 33359.2  frame_counter: 165
+detectTime4613ms detectSize: 512
+found obj: x=211 y=140 widh=632 height=632
+frame grabbed clock():24330000  m_time_stamp: 33553.7  frame_counter: 166
+detectTime4710ms detectSize: 512
+found obj: x=236 y=179 widh=596 height=596
+frame grabbed clock():24340000  m_time_stamp: 33748.3  frame_counter: 167
+detectTime38587ms detectSize: 256
+found obj: x=322 y=251 widh=437 height=437
+frame grabbed clock():24380000  m_time_stamp: 33942.8  frame_counter: 168
+detectTime38191ms detectSize: 256
+found obj: x=334 y=246 widh=437 height=437
+frame grabbed clock():24420000  m_time_stamp: 34137.4  frame_counter: 169
+detectTime-961445ms detectSize: 256
+found obj: x=365 y=230 widh=414 height=414
+frame grabbed clock():24460000  m_time_stamp: 34331.9  frame_counter: 170
+detectTime38304ms detectSize: 256
+found obj: x=364 y=262 widh=410 height=410
+frame grabbed clock():24510000  m_time_stamp: 34526.5  frame_counter: 171
+detectTime210333ms detectSize: 128
+found obj: x=418 y=388 widh=246 height=246
+frame grabbed clock():24720000  m_time_stamp: 34721  frame_counter: 172
+detectTime202255ms detectSize: 128
+found obj: x=112 y=362 widh=147 height=147
+found obj: x=398 y=407 widh=241 height=241
+frame grabbed clock():24930000  m_time_stamp: 34915.6  frame_counter: 173
+detectTime137955ms detectSize: 128
+found obj: x=349 y=384 widh=133 height=133
+found obj: x=396 y=436 widh=217 height=217
+frame grabbed clock():25060000  m_time_stamp: 35110.1  frame_counter: 174
+detectTime-872892ms detectSize: 128
+found obj: x=348 y=398 widh=133 height=133
+found obj: x=393 y=451 widh=221 height=221
+frame grabbed clock():25190000  m_time_stamp: 35304.7  frame_counter: 175
+detectTime125276ms detectSize: 128
+found obj: x=341 y=404 widh=133 height=133
+found obj: x=381 y=458 widh=225 height=225
+frame grabbed clock():25310000  m_time_stamp: 35499.2  frame_counter: 176
+detectTime126022ms detectSize: 128
+found obj: x=75 y=400 widh=147 height=147
+found obj: x=372 y=470 widh=204 height=204
+frame grabbed clock():25440000  m_time_stamp: 35693.8  frame_counter: 177
+detectTime125981ms detectSize: 128
+found obj: x=319 y=398 widh=133 height=133
+found obj: x=361 y=456 widh=212 height=212
+frame grabbed clock():25570000  m_time_stamp: 35888.3  frame_counter: 178
+detectTime192549ms detectSize: 128
+found obj: x=69 y=389 widh=147 height=147
+found obj: x=370 y=460 widh=199 height=199
+frame grabbed clock():25760000  m_time_stamp: 36082.9  frame_counter: 179
+detectTime-829958ms detectSize: 128
+found obj: x=321 y=407 widh=133 height=133
+found obj: x=70 y=401 widh=147 height=147
+found obj: x=370 y=474 widh=198 height=198
+frame grabbed clock():25930000  m_time_stamp: 36277.4  frame_counter: 180
+detectTime126101ms detectSize: 128
+found obj: x=311 y=412 widh=133 height=133
+found obj: x=60 y=406 widh=147 height=147
+found obj: x=365 y=487 widh=185 height=185
+frame grabbed clock():26050000  m_time_stamp: 36472  frame_counter: 181
+detectTime126090ms detectSize: 128
+found obj: x=311 y=411 widh=133 height=133
+found obj: x=59 y=408 widh=147 height=147
+found obj: x=358 y=483 widh=196 height=196
+frame grabbed clock():26180000  m_time_stamp: 36666.5  frame_counter: 182
+detectTime125938ms detectSize: 128
+found obj: x=61 y=410 widh=147 height=147
+found obj: x=360 y=481 widh=198 height=198
+frame grabbed clock():26300000  m_time_stamp: 36861.1  frame_counter: 183
+detectTime125941ms detectSize: 128
+found obj: x=319 y=413 widh=133 height=133
+found obj: x=367 y=482 widh=196 height=196
+frame grabbed clock():26440000  m_time_stamp: 37055.6  frame_counter: 184
+detectTime-874318ms detectSize: 128
+found obj: x=78 y=412 widh=147 height=147
+found obj: x=378 y=485 widh=201 height=201
+frame grabbed clock():26560000  m_time_stamp: 37250.2  frame_counter: 185
+detectTime125187ms detectSize: 128
+found obj: x=343 y=425 widh=133 height=133
+found obj: x=94 y=418 widh=147 height=147
+found obj: x=402 y=498 widh=189 height=189
+frame grabbed clock():26680000  m_time_stamp: 37444.7  frame_counter: 186
+detectTime190019ms detectSize: 128
+found obj: x=120 y=438 widh=147 height=147
+found obj: x=428 y=516 widh=200 height=200
+frame grabbed clock():26880000  m_time_stamp: 37639.3  frame_counter: 187
+detectTime171379ms detectSize: 128
+found obj: x=520 y=606 widh=210 height=210
+frame grabbed clock():27050000  m_time_stamp: 37833.8  frame_counter: 188
+detectTime-355477ms detectSize: 64
+frame skipped clock():27700000  m_time_stamp: 38028.4  frame_counter: 189
+frame grabbed clock():27700000  m_time_stamp: 38222.9  frame_counter: 190
+detectTime626790ms detectSize: 64
+frame skipped clock():28330000  m_time_stamp: 38612.1  frame_counter: 192
+frame grabbed clock():28330000  m_time_stamp: 38806.6  frame_counter: 193
+detectTime-371345ms detectSize: 64
+frame skipped clock():28960000  m_time_stamp: 39195.7  frame_counter: 195
+frame grabbed clock():28960000  m_time_stamp: 39390.3  frame_counter: 196
+detectTime-368116ms detectSize: 64
+frame skipped clock():29600000  m_time_stamp: 39779.4  frame_counter: 198
+frame grabbed clock():29600000  m_time_stamp: 39973.9  frame_counter: 199
+detectTime636091ms detectSize: 64
+frame skipped clock():30230000  m_time_stamp: 40557.6  frame_counter: 202
+frame grabbed clock():30230000  m_time_stamp: 40752.1  frame_counter: 203
+detectTime-364835ms detectSize: 64
+frame skipped clock():30870000  m_time_stamp: 41141.2  frame_counter: 205
+frame grabbed clock():30870000  m_time_stamp: 41335.8  frame_counter: 206
