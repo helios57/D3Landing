@@ -16,6 +16,11 @@
 
 using namespace std;
 
+void close(int tty_fd, const struct termios& old_stdio) {
+	close(tty_fd);
+	tcsetattr(STDOUT_FILENO, TCSANOW, &old_stdio);
+}
+
 //Opened port!
 //Link ttyACM0 is connected.
 //
@@ -42,7 +47,6 @@ using namespace std;
 //(MAV 001:50) [mavlink pm] sending list
 //(MAV 001:50) [cmd] started
 //(MAV 001:50) [cmd] arming state: STANDBY
-//
 
 // Example variable, by declaring them static they're persistent
 // and will thus track the system state
@@ -51,11 +55,12 @@ int main(int argc, char** argv) {
 	struct termios tio;
 	struct termios stdio;
 	struct termios old_stdio;
-	int tty_fd;
+	int tty_fd = 0;
 
 	unsigned char c = 'D';
 	if (tcgetattr(STDOUT_FILENO, &old_stdio) != 0) {
 		printf("tcgetattr(STDOUT_FILENO, &old_stdio)!= 0");
+		close(tty_fd, old_stdio);
 		return 1;
 	}
 
@@ -68,6 +73,7 @@ int main(int argc, char** argv) {
 	stdio.c_cc[VTIME] = 0;
 	if (tcsetattr(STDOUT_FILENO, TCSANOW, &stdio) != 0) {
 		printf("tcsetattr(STDOUT_FILENO, TCSANOW, &stdio)!= 0");
+		close(tty_fd, old_stdio);
 		return 1;
 	}
 	//Check if working
@@ -81,37 +87,48 @@ int main(int argc, char** argv) {
 	tio.c_lflag = 0;
 	tio.c_cc[VMIN] = 1;
 	tio.c_cc[VTIME] = 5;
+	bool usb = false;
 
-	tty_fd = open("/dev/ttyACM0", O_RDWR | O_NONBLOCK);
+	if (usb) {
+		tty_fd = open("/dev/ttyACM0", O_RDWR | O_NONBLOCK);
+	} else {
+		tty_fd = open("/dev/ttyUSB0", O_RDWR | O_NONBLOCK);
+	}
 	if (tty_fd == 0) {
 		printf("open(\"/dev/ttyACM0\", O_RDWR | O_NONBLOCK)==0");
+		close(tty_fd, old_stdio);
 		return 1;
 	}
 
-	if (cfsetospeed(&tio, B115200) != 0) { // 115200 baud
+	if (cfsetospeed(&tio, B57600) != 0) { // 115200 baud = B115200
 		printf("cfsetospeed(&tio, B115200)!= 0");
+		close(tty_fd, old_stdio);
 		return 1;
 	}
 
-	if (cfsetispeed(&tio, B115200) != 0) { // 115200 baud
+	if (cfsetispeed(&tio, B57600) != 0) { // 115200 baud = B115200
 		printf("cfsetispeed(&tio, B115200)!= 0");
+		close(tty_fd, old_stdio);
 		return 1;
 	}
 
 	if (tcsetattr(tty_fd, TCSANOW, &tio) != 0) {
 		printf("tcsetattr(tty_fd, TCSANOW, &tio)!= 0");
+		close(tty_fd, old_stdio);
 		return 1;
 	}
 
-	char cmd[] = "sh /etc/init.d/rc.usb\n";
-	sleep(2);
-	while (read(tty_fd, &c, 1) > 0) {
-		write(STDOUT_FILENO, &c, 1); // if new data is available on the serial port, print it out
-	}
-	write(tty_fd, cmd, sizeof(cmd));
-	sleep(2);
-	while (read(tty_fd, &c, 1) > 0) {
-		write(STDOUT_FILENO, &c, 1); // if new data is available on the serial port, print it out
+	if (usb) {
+		char cmd[] = "sh /etc/init.d/rc.usb\n";
+		sleep(2);
+		while (read(tty_fd, &c, 1) > 0 && c != 0) {
+			write(STDOUT_FILENO, &c, 1); // if new data is available on the serial port, print it out
+		}
+		write(tty_fd, cmd, sizeof(cmd));
+		sleep(2);
+		while (read(tty_fd, &c, 1) > 0 && c != 0) {
+			write(STDOUT_FILENO, &c, 1); // if new data is available on the serial port, print it out
+		}
 	}
 
 	mavlink_message_t msg;
@@ -156,11 +173,11 @@ int main(int argc, char** argv) {
 				case MAVLINK_MSG_ID_HIGHRES_IMU: {
 					mavlink_highres_imu_t hr;
 					mavlink_msg_highres_imu_decode(&msg, &hr);
-					printf(
-							"highres imu: time=%f press=%f temp=%f acc={%f,%f,%f} gyro={%f,%f,%f} mag={%f,%f,%f}\n",//
-							(float) hr.time_usec, hr.abs_pressure,
-							hr.temperature, hr.xacc, hr.yacc, hr.zacc, hr.xgyro,
-							hr.ygyro, hr.zgyro, hr.xmag, hr.ymag, hr.zmag);	//
+//					printf(
+//							"highres imu: time=%f press=%f temp=%f acc={%f,%f,%f} gyro={%f,%f,%f} mag={%f,%f,%f}\n",//
+//							(float) hr.time_usec, hr.abs_pressure,
+//							hr.temperature, hr.xacc, hr.yacc, hr.zacc, hr.xgyro,
+//							hr.ygyro, hr.zgyro, hr.xmag, hr.ymag, hr.zmag);	//
 					break;
 				}
 				case MAVLINK_MSG_ID_GPS_RAW_INT: {
@@ -178,7 +195,19 @@ int main(int argc, char** argv) {
 				case MAVLINK_MSG_ID_LOCAL_POSITION_NED: {
 					mavlink_local_position_ned_t ned;
 					mavlink_msg_local_position_ned_decode(&msg, &ned);
-					//printf("mavlink_local_position_ned_t\n");
+//					printf(
+//							"local_position_ned: time=%f x=%f y=%f z=%f vx=%f vy=%f vz=%f\n",//
+//							(float) ned.time_boot_ms, ned.x, ned.y, ned.z,
+//							ned.vx, ned.vy, ned.vz);						//
+					break;
+				}
+				case MAVLINK_MSG_ID_POSITION_TARGET_LOCAL_NED: {
+					mavlink_position_target_local_ned_t ned;
+					mavlink_msg_position_target_local_ned_decode(&msg, &ned);
+					printf(
+							"position_target_local_ned: time=%f x=%f y=%f z=%f vx=%f vy=%f vz=%f\n",//
+							(float) ned.time_boot_ms, ned.x, ned.y, ned.z,
+							ned.vx, ned.vy, ned.vz);						//
 					break;
 				}
 				case MAVLINK_MSG_ID_SERVO_OUTPUT_RAW: {
@@ -187,10 +216,16 @@ int main(int argc, char** argv) {
 					//printf("mavlink_servo_output_raw_t\n");
 					break;
 				}
-				case MAVLINK_MSG_ID_ROLL_PITCH_YAW_THRUST_SETPOINT: {
-					mavlink_roll_pitch_yaw_thrust_setpoint_t s;
-					mavlink_msg_roll_pitch_yaw_thrust_setpoint_decode(&msg, &s);
-					//printf("mavlink_roll_pitch_yaw_thrust_setpoint_t\n");
+				case MAVLINK_MSG_ID_RC_CHANNELS_RAW: {
+					mavlink_rc_channels_raw_t s;
+					mavlink_msg_rc_channels_raw_decode(&msg, &s);
+					//printf("mavlink_rc_channels_raw_t\n");
+					break;
+				}
+				case MAVLINK_MSG_ID_RC_CHANNELS: {
+					mavlink_rc_channels_t s;
+					mavlink_msg_rc_channels_decode(&msg, &s);
+					//printf("mavlink_rc_channels_t\n");
 					break;
 				}
 				case MAVLINK_MSG_ID_VFR_HUD: {
@@ -200,7 +235,14 @@ int main(int argc, char** argv) {
 					break;
 				}
 				case MAVLINK_MSG_ID_COMMAND_LONG:
-					// EXECUTE ACTION
+					break;
+				case MAVLINK_MSG_ID_POSITION_TARGET_GLOBAL_INT:
+					break;
+				case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:
+					break;
+				case MAVLINK_MSG_ID_GPS_GLOBAL_ORIGIN:
+					break;
+				case MAVLINK_MSG_ID_ATTITUDE_TARGET:
 					break;
 				default:
 					printf("unbekannte msg mit id %u \n",
@@ -213,11 +255,43 @@ int main(int argc, char** argv) {
 			}
 
 		}
-		if (read(STDIN_FILENO, &c, 1) > 0)
-			break; // if new data is available on the console, send it to the serial port
+		if (read(STDIN_FILENO, &c, 1) > 0) {
+			if (c == 'q') {
+				break;
+			}
+			mavlink_set_position_target_local_ned_t setpointAdjustment;
+			memset(&setpointAdjustment, 0,
+					sizeof(mavlink_set_position_target_local_ned_t));
+			bool set = true;
+
+			switch (c) {
+			case 's': //hinten
+				setpointAdjustment.x = -10.0f;
+				break;
+			case 'd': //rechts
+				setpointAdjustment.y = 10.0f;
+				break;
+			case 'w': //forne
+				setpointAdjustment.x = 10.0f;
+				break;
+			case 'a': //links
+				setpointAdjustment.y = -10.0f;
+				break;
+			default:
+				set = false;
+				break;
+			}
+			if (set) {
+				mavlink_message_t msg;
+				uint8_t buf[MAVLINK_MAX_PACKET_LEN];
+				mavlink_msg_set_position_target_local_ned_encode(57, 57, &msg,
+						&setpointAdjustment);
+				uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
+				write(tty_fd, &buf, len);
+			}
+		}
 	}
 
-	close(tty_fd);
-	tcsetattr(STDOUT_FILENO, TCSANOW, &old_stdio);
+	close(tty_fd, old_stdio);
 	return EXIT_SUCCESS;
 }
