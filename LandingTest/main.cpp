@@ -5,9 +5,16 @@
 // ----------------------------------------------------------------------------------------------
 
 #include "main.h"
+#include "mavlink_bridge.h"
+
 using namespace std;
+bool connect = false;
 
 int main(int argc, char** argv) {
+	if (connect) {
+		initStreams();
+	}
+
 	VrmStatus* vrmStatus = new VrmStatus();
 	vector<Rect> objs;
 
@@ -66,12 +73,19 @@ int main(int argc, char** argv) {
 #endif
 			unlockImage(vrmStatus);
 		}
-
+		if (connect) {
+			readFromStream();
+			sendMessage();
+		}
 	} while (1);
 #ifdef LINUX
 	cvDestroyWindow("result");
 #endif
 	closeDevice(vrmStatus);
 	cout << "exit." << endl;
+
+	if (connect) {
+		closeStream();
+	}
 	return 0;
 }
