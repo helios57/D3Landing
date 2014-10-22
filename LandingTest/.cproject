@@ -25,8 +25,10 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1667410222" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.292174706" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.366343773" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.2.2/D3/development_kit/include"/>
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.2.2/D3/development_kit/vm_lib/include"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/include"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/include"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/include/libvrmusbcam2-3.3.2.0"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/vm_lib-1.0.1.0/include"/>
 									<listOptionValue builtIn="false" value="/home/helios/workspace/opencv/opencv/build_hardfp/install/include"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.331238671" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
@@ -39,8 +41,10 @@
 								<option id="gnu.cpp.compiler.option.optimization.level.355982858" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1641384493" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1376629843" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.2.2/D3/development_kit/include"/>
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.2.2/D3/development_kit/vm_lib/include"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/include"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/include"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/include/libvrmusbcam2-3.3.2.0"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/vm_lib-1.0.1.0/include"/>
 									<listOptionValue builtIn="false" value="/home/helios/workspace/opencv/opencv/build_hardfp/install/include"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1047390550" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
@@ -59,13 +63,18 @@
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="rt"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.652402791" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.2.2/D3/development_kit/lib/"/>
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.2.2/D3/development_kit/vm_lib/lib/"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/lib"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/lib"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/lib/arm-linux-gnueabihf"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/lib"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/lib/arm-linux-gnueabihf"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/lib/libvrmusbcam2-3.3.2.0"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/vm_lib-1.0.1.0/lib"/>
 									<listOptionValue builtIn="false" value="/home/helios/workspace/opencv/opencv/build_hardfp/install/lib"/>
 								</option>
 								<option id="gnu.cpp.link.option.flags.1258525091" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="" valueType="string"/>
 								<option id="gnu.cpp.link.option.other.234079682" name="Other options (-Xlinker [option])" superClass="gnu.cpp.link.option.other" valueType="stringList">
-									<listOptionValue builtIn="false" value="--rpath-link=/opt/vrmagic/sdk-4.2.2/D3/development_kit/vm_lib/lib/:/usr/arm-linux-gnueabihf/lib:/usr/arm-linux-gnueabihf/vrmagic/lib/:/usr/arm-linux-gnueabihf/vrmagic/lib/arm-linux-gnueabihf:/usr/arm-linux-gnueabihf/vrmagic/usr/lib:/usr/arm-linux-gnueabihf/vrmagic/usr/lib/arm-linux-gnueabihf:/home/helios/workspace/opencv/opencv/build_hardfp/install/lib --rpath=/home/helios/workspace/opencv/opencv/build_hardfp/install/lib"/>
+									<listOptionValue builtIn="false" value="--rpath-link=/usr/arm-linux-gnueabihf/lib:/usr/arm-linux-gnueabihf/vrmagic/lib/:/usr/arm-linux-gnueabihf/vrmagic/lib/arm-linux-gnueabihf:/usr/arm-linux-gnueabihf/vrmagic/usr/lib:/usr/arm-linux-gnueabihf/vrmagic/usr/lib/arm-linux-gnueabihf:/home/helios/workspace/opencv/opencv/build_hardfp/install/lib"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.848704610" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
@@ -111,8 +120,8 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1969207345" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.debugging.level.292677212" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.2095089084" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.1.0/x86/development_kit/include"/>
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.1.0/x86/development_kit/vm_lib/include"/>
+									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/include"/>
+									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/vm_lib/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.549807460" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
@@ -126,12 +135,13 @@
 								<option id="gnu.cpp.compiler.option.optimization.level.1301550346" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.154250360" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1554210123" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.1.0/x86/development_kit/include"/>
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.1.0/x86/development_kit/vm_lib/include"/>
+									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/include"/>
+									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/vm_lib/include"/>
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1243705863" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_VR_DSP"/>
+									<listOptionValue builtIn="false" value="LINUX"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.dialect.std.69848515" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.502402271" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -147,13 +157,13 @@
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="rt"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1348687530" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.1.0/x86/development_kit/lib"/>
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.1.0/x86/development_kit/vm_lib/lib"/>
+									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/lib"/>
+									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/vm_lib/lib"/>
 									<listOptionValue builtIn="false" value="/usr/local/lib"/>
 								</option>
 								<option id="gnu.cpp.link.option.flags.526905767" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="" valueType="string"/>
 								<option id="gnu.cpp.link.option.other.784756087" name="Other options (-Xlinker [option])" superClass="gnu.cpp.link.option.other" valueType="stringList">
-									<listOptionValue builtIn="false" value="--rpath=/opt/vrmagic/sdk-4.1.0/x86/development_kit/lib:/opt/vrmagic/sdk-4.1.0/x86/development_kit/vm_lib/lib:/usr/local/lib"/>
+									<listOptionValue builtIn="false" value="--rpath=/opt/vrmagic/sdk-4.3.2/x86/development_kit/lib:/opt/vrmagic/sdk-4.3.2/x86/development_kit/vm_lib/lib:/usr/local/lib"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1551158101" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

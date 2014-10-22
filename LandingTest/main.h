@@ -23,8 +23,6 @@
 #include "timerutil.h"
 #include "vrm.h"
 
-#define LINUX
-
 #ifdef LINUX
 #include "opencv2/highgui.hpp"
 #include "opencv2/highgui/highgui_c.h"
