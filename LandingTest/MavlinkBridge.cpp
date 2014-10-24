@@ -15,7 +15,7 @@ MavlinkBridge::MavlinkBridge() :
 		running(true), connected(false), bridge_tty_fd(0), bridge_c('D') {
 	receiverThread = 0;
 	memset(&setpointAdjustment, 0, sizeof(mavlink_set_position_target_local_ned_t));
-	memset(&lastImu, 0, sizeof(mavlink_highres_imu_t));
+	memset(&attitude, 0, sizeof(mavlink_attitude_t));
 	initStreams();
 }
 MavlinkBridge::~MavlinkBridge() {
@@ -73,12 +73,10 @@ void MavlinkBridge::readFromStream() {
 				mavlink_msg_statustext_decode(&msg, &s);
 				printf("status %s\n", s.text);
 			}
-			if (msg.msgid == MAVLINK_MSG_ID_HIGHRES_IMU) {
-				mavlink_highres_imu_t hr;
-				mavlink_msg_highres_imu_decode(&msg, &hr);
-				lastImu = hr;
-				//printf("highres imu: time=%f press=%f temp=%f acc={%f,%f,%f} gyro={%f,%f,%f} mag={%f,%f,%f}\n", //
-				//		(float) hr.time_usec, hr.abs_pressure, hr.temperature, hr.xacc, hr.yacc, hr.zacc, hr.xgyro, hr.ygyro, hr.zgyro, hr.xmag, hr.ymag, hr.zmag);	//
+			if (msg.msgid == MAVLINK_MSG_ID_ATTITUDE) {
+				mavlink_attitude_t at;
+				mavlink_msg_attitude_decode(&msg, &at);
+				attitude = at;
 			}
 		}
 	}
@@ -100,8 +98,8 @@ void MavlinkBridge::stop() {
 	delete (receiverThread);
 }
 
-mavlink_highres_imu_t MavlinkBridge::getLastIMU() {
-	return lastImu;
+mavlink_attitude_t MavlinkBridge::getAttitude() {
+	return attitude;
 }
 
 void MavlinkBridge::threadMain() {
@@ -117,5 +115,4 @@ void MavlinkBridge::sendCorrection(float x, float y, float z) {
 	setpointAdjustment.z = z;
 	sendMessage();
 }
-
 } /* namespace d3 */

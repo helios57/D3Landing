@@ -57,10 +57,16 @@ int main(int argc, char** argv) {
 			}
 			long detectTime = timer_end(detectTimer);
 
+			int height = vrmStatus->p_source_img->m_image_format.m_height;
+			int width = vrmStatus->p_source_img->m_image_format.m_width;
 			cout << "detectTime" << detectTime << "ms detectSize: " << detecteSize << endl;
 			if (objs.size() > 0) {
 				for (vector<Rect>::const_iterator r = objs.begin(); r != objs.end(); r++) {
-					cout << "found obj: x=" << r->x << " y=" << r->y << " widh=" << r->width << " height=" << r->height << endl;
+					int midX = r->x + r->width / 2 - width / 2;
+					int midY = r->y + r->height / 2 - height / 2;
+					cout << "found obj:";
+					cout << " midX=" << midX << " midY=" << midY;
+					cout << " x=" << r->x << " y=" << r->y << " widh=" << r->width << " height=" << r->height << endl;
 #ifdef LINUX
 					rectangle(mat, cvPoint(cvRound(r->x), cvRound(r->y)), cvPoint(cvRound((r->x + r->width - 1)), cvRound((r->y + r->height - 1))), color, 3, 8, 0);
 #endif
@@ -71,10 +77,9 @@ int main(int argc, char** argv) {
 			waitKey(1);
 #endif
 			unlockImage(vrmStatus);
-			mavlink_highres_imu_t hr = mavlink.getLastIMU();
-			printf("highres imu: time=%f press=%f temp=%f acc={%f,%f,%f} gyro={%f,%f,%f} mag={%f,%f,%f}\n", //
-					(float) hr.time_usec, hr.abs_pressure, hr.temperature, hr.xacc, hr.yacc, hr.zacc, hr.xgyro, hr.ygyro, hr.zgyro, hr.xmag, hr.ymag, hr.zmag);	//
-
+			mavlink_attitude_t at = mavlink.getAttitude();
+			printf("attitude: time=%f roll=%f pitch=%f yaw=%f rollspeed=%f pitchspeed=%f yawspeed=%f\n", //
+					(float) at.time_boot_ms, at.roll, at.pitch, at.yaw, at.rollspeed, at.pitchspeed, at.yawspeed);	//
 		}
 	} while (1);
 #ifdef LINUX
