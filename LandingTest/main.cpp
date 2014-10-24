@@ -13,7 +13,7 @@ bool connect = false;
 int main(int argc, char** argv) {
 	if (connect) {
 		initStreams();
-	}
+	}//
 
 	VrmStatus* vrmStatus = new VrmStatus();
 	vector<Rect> objs;
