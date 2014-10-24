@@ -38,11 +38,11 @@ int main(int argc, char** argv) {
 		// (like a trigger timeout) occured.
 		if (vrmStatus->p_source_img) {
 			getFrameCounter(vrmStatus);
-			cout << "frame grabbed clock():" << clock() << "  m_time_stamp: " << vrmStatus->p_source_img->m_time_stamp << "  frame_counter: " << vrmStatus->frame_counter << endl;
+			//cout << "frame grabbed clock():" << clock() << "  m_time_stamp: " << vrmStatus->p_source_img->m_time_stamp << "  frame_counter: " << vrmStatus->frame_counter << endl;
 			// see, if we had to drop some frames due to data transfer stalls. if so,
 			// output a message
-			if (vrmStatus->frames_dropped)
-				cout << "- " << vrmStatus->frames_dropped << " frames dropped-" << endl;
+			//if (vrmStatus->frames_dropped)
+			//	cout << "- " << vrmStatus->frames_dropped << " frames dropped-" << endl;
 
 			Mat mat = getMat(vrmStatus->p_source_img);
 			objs.clear();
@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
 
 			int height = vrmStatus->p_source_img->m_image_format.m_height;
 			int width = vrmStatus->p_source_img->m_image_format.m_width;
-			cout << "detectTime" << detectTime << "ms detectSize: " << detecteSize << endl;
+			//cout << "detectTime" << detectTime << "ms detectSize: " << detecteSize << endl;
 			if (objs.size() > 0) {
 				for (vector<Rect>::const_iterator r = objs.begin(); r != objs.end(); r++) {
 					int midX = r->x + r->width / 2 - width / 2;
@@ -77,9 +77,9 @@ int main(int argc, char** argv) {
 			waitKey(1);
 #endif
 			unlockImage(vrmStatus);
-			mavlink_attitude_t at = mavlink.getAttitude();
-			printf("attitude: time=%f roll=%f pitch=%f yaw=%f rollspeed=%f pitchspeed=%f yawspeed=%f\n", //
-					(float) at.time_boot_ms, at.roll, at.pitch, at.yaw, at.rollspeed, at.pitchspeed, at.yawspeed);	//
+			//mavlink_attitude_t at = mavlink.getAttitude();
+			//printf("attitude: time=%f roll=%f pitch=%f yaw=%f rollspeed=%f pitchspeed=%f yawspeed=%f\n", //
+			//(float) at.time_boot_ms, at.roll, at.pitch, at.yaw, at.rollspeed, at.pitchspeed, at.yawspeed);	//
 		}
 	} while (1);
 #ifdef LINUX
