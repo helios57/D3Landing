@@ -28,7 +28,7 @@
 									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/include"/>
 									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/include"/>
 									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/include/libvrmusbcam2-3.3.2.0"/>
-									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/vm_lib-1.0.1.0/include"/>
+									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/D3/dsp/vm_lib-1.0.1.0/include/vm_lib"/>
 									<listOptionValue builtIn="false" value="/home/helios/workspace/opencv/opencv/build_hardfp/install/include"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.331238671" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
@@ -44,7 +44,7 @@
 									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/include"/>
 									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/include"/>
 									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/include/libvrmusbcam2-3.3.2.0"/>
-									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/vm_lib-1.0.1.0/include"/>
+									<listOptionValue builtIn="false" value="/usr/arm-linux-gnueabihf/vrmagic/usr/vm_lib-1.0.1.0/include/vm_lib"/>
 									<listOptionValue builtIn="false" value="/home/helios/workspace/opencv/opencv/build_hardfp/install/include"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1047390550" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
@@ -121,7 +121,7 @@
 								<option id="gnu.c.compiler.option.debugging.level.292677212" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.2095089084" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/include"/>
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/vm_lib/include"/>
+									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/vm_lib/include/vm_lib"/>
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.549807460" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
@@ -136,7 +136,7 @@
 								<option id="gnu.cpp.compiler.option.debugging.level.154250360" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1554210123" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/include"/>
-									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/vm_lib/include"/>
+									<listOptionValue builtIn="false" value="/opt/vrmagic/sdk-4.3.2/x86/development_kit/vm_lib/include/vm_lib"/>
 									<listOptionValue builtIn="false" value="/usr/local/include"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1243705863" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">

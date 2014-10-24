@@ -12,6 +12,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <vm_lib.h>
 
 #include <opencv2/core/core.hpp>
 #include <opencv2/core/types_c.h>
