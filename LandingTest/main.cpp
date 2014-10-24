@@ -5,15 +5,14 @@
 // ----------------------------------------------------------------------------------------------
 
 #include "main.h"
-#include "mavlink_bridge.h"
+#include "MavlinkBridge.h"
 
 using namespace std;
-bool connect = false;
+using namespace d3;
 
 int main(int argc, char** argv) {
-	if (connect) {
-		initStreams();
-	}//
+	MavlinkBridge mavlink;
+	mavlink.start();
 
 	VrmStatus* vrmStatus = new VrmStatus();
 	vector<Rect> objs;
@@ -72,10 +71,10 @@ int main(int argc, char** argv) {
 			waitKey(1);
 #endif
 			unlockImage(vrmStatus);
-		}
-		if (connect) {
-			readFromStream();
-			sendMessage();
+			mavlink_highres_imu_t hr = mavlink.getLastIMU();
+			printf("highres imu: time=%f press=%f temp=%f acc={%f,%f,%f} gyro={%f,%f,%f} mag={%f,%f,%f}\n", //
+					(float) hr.time_usec, hr.abs_pressure, hr.temperature, hr.xacc, hr.yacc, hr.zacc, hr.xgyro, hr.ygyro, hr.zgyro, hr.xmag, hr.ymag, hr.zmag);	//
+
 		}
 	} while (1);
 #ifdef LINUX
@@ -84,8 +83,6 @@ int main(int argc, char** argv) {
 	closeDevice(vrmStatus);
 	cout << "exit." << endl;
 
-	if (connect) {
-		closeStream();
-	}
+	mavlink.stop();
 	return 0;
 }

@@ -1,33 +1,35 @@
-#include "mavlink_bridge.h"
-#include <string.h>
-#include <stdio.h>
-#include <fcntl.h>
+/*
+ * MavlinkBridge.cpp
+ *
+ *  Created on: Oct 24, 2014
+ *      Author: helios
+ */
 
-uint8_t buf[MAVLINK_MAX_PACKET_LEN];
-mavlink_message_t msg;
-mavlink_status_t status;
-mavlink_set_position_target_local_ned_t setpointAdjustment;
-struct termios bridge_tio;
-struct termios bridge_stdio;
-struct termios bridge_old_stdio;
-int bridge_tty_fd = 0;
-unsigned char bridge_c = 'D';
+#include "MavlinkBridge.h"
+namespace d3 {
 
+void blubber() {
 
-using namespace std;
-
-void close(int tty_fd, const struct termios& old_stdio) {
-	close(tty_fd);
-	tcsetattr(STDOUT_FILENO, TCSANOW, &old_stdio);
-	exit(1);
 }
-
-void initStreams() {
+MavlinkBridge::MavlinkBridge() :
+		running(true), connected(false), bridge_tty_fd(0), bridge_c('D') {
+	receiverThread = 0;
 	memset(&setpointAdjustment, 0, sizeof(mavlink_set_position_target_local_ned_t));
-
+	memset(&lastImu, 0, sizeof(mavlink_highres_imu_t));
+	initStreams();
+}
+MavlinkBridge::~MavlinkBridge() {
+}
+void MavlinkBridge::close() {
+	::close(bridge_tty_fd);
+	tcsetattr(STDOUT_FILENO, TCSANOW, &bridge_old_stdio);
+	bridge_tty_fd = 0;
+	connected = false;
+}
+void MavlinkBridge::initStreams() {
 	if (tcgetattr(STDOUT_FILENO, &bridge_old_stdio) != 0) {
 		printf("tcgetattr(STDOUT_FILENO, &old_stdio)!= 0");
-		close(bridge_tty_fd, bridge_old_stdio);
+		close();
 	}
 	memset(&bridge_stdio, 0, sizeof(bridge_stdio));
 	bridge_stdio.c_iflag = 0;
@@ -38,7 +40,7 @@ void initStreams() {
 	bridge_stdio.c_cc[VTIME] = 0;
 	if (tcsetattr(STDOUT_FILENO, TCSANOW, &bridge_stdio) != 0) {
 		printf("tcsetattr(STDOUT_FILENO, TCSANOW, &stdio)!= 0");
-		close(bridge_tty_fd, bridge_old_stdio);
+		close();
 	}
 	//Check if working
 	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &bridge_stdio);
@@ -54,19 +56,19 @@ void initStreams() {
 
 	if (bridge_tty_fd == 0) {
 		printf("open(\"/dev/ttyACM0\", O_RDWR | O_NONBLOCK)==0");
-		close(bridge_tty_fd, bridge_old_stdio);
+		close();
 	}
 	if (cfsetospeed(&bridge_tio, B57600) != 0) { // 115200 baud = B115200
 		printf("cfsetospeed(&tio, B115200)!= 0");
-		close(bridge_tty_fd, bridge_old_stdio);
+		close();
 	}
 	if (cfsetispeed(&bridge_tio, B57600) != 0) { // 115200 baud = B115200
 		printf("cfsetispeed(&tio, B115200)!= 0");
-		close(bridge_tty_fd, bridge_old_stdio);
+		close();
 	}
 	if (tcsetattr(bridge_tty_fd, TCSANOW, &bridge_tio) != 0) {
 		printf("tcsetattr(tty_fd, TCSANOW, &tio)!= 0");
-		close(bridge_tty_fd, bridge_old_stdio);
+		close();
 	}
 	char cmd[] = "sh /etc/init.d/rc.usb\n";
 	sleep(2);
@@ -78,11 +80,12 @@ void initStreams() {
 	while (read(bridge_tty_fd, &bridge_c, 1) > 0 && bridge_c != 0) {
 		write(STDOUT_FILENO, &bridge_c, 1); // if new data is available on the serial port, print it out
 	}
+	connected = true;
 }
 
-void readFromStream() {
+void MavlinkBridge::readFromStream() {
 	int counter = 0;
-	while (read(bridge_tty_fd, &bridge_c, 1) > 0 && counter++ < 1000) {
+	while (running && connected && read(bridge_tty_fd, &bridge_c, 1) > 0 && counter++ < 1000) {
 		if (mavlink_parse_char(MAVLINK_COMM_0, bridge_c, &msg, &status)) {
 			if (msg.msgid == MAVLINK_MSG_ID_STATUSTEXT) {
 				mavlink_statustext_t s;
@@ -92,20 +95,46 @@ void readFromStream() {
 			if (msg.msgid == MAVLINK_MSG_ID_HIGHRES_IMU) {
 				mavlink_highres_imu_t hr;
 				mavlink_msg_highres_imu_decode(&msg, &hr);
-				printf("highres imu: time=%f press=%f temp=%f acc={%f,%f,%f} gyro={%f,%f,%f} mag={%f,%f,%f}\n", //
-						(float) hr.time_usec, hr.abs_pressure, hr.temperature, hr.xacc, hr.yacc, hr.zacc, hr.xgyro, hr.ygyro, hr.zgyro, hr.xmag, hr.ymag, hr.zmag);	//
+				lastImu = hr;
+				//printf("highres imu: time=%f press=%f temp=%f acc={%f,%f,%f} gyro={%f,%f,%f} mag={%f,%f,%f}\n", //
+				//		(float) hr.time_usec, hr.abs_pressure, hr.temperature, hr.xacc, hr.yacc, hr.zacc, hr.xgyro, hr.ygyro, hr.zgyro, hr.xmag, hr.ymag, hr.zmag);	//
 			}
 		}
 	}
 }
 
-uint16_t sendMessage() {
+uint16_t MavlinkBridge::sendMessage() {
 	mavlink_msg_set_position_target_local_ned_encode(57, 57, &msg, &setpointAdjustment);
 	uint16_t len = mavlink_msg_to_send_buffer(buf, &msg);
 	write(bridge_tty_fd, &buf, len);
 	return len;
 }
 
-void closeStream() {
-	close(bridge_tty_fd, bridge_old_stdio);
+void MavlinkBridge::start() {
+	receiverThread = new thread(&MavlinkBridge::threadMain, this);
 }
+
+void MavlinkBridge::stop() {
+	running = false;
+	delete (receiverThread);
+}
+
+mavlink_highres_imu_t MavlinkBridge::getLastIMU() {
+	return lastImu;
+}
+
+void MavlinkBridge::threadMain() {
+	while (running) {
+		readFromStream();
+		this_thread::sleep_for(chrono::milliseconds(10));
+	}
+}
+
+void MavlinkBridge::sendCorrection(float x, float y, float z) {
+	setpointAdjustment.x = x;
+	setpointAdjustment.y = y;
+	setpointAdjustment.z = z;
+	sendMessage();
+}
+
+} /* namespace d3 */
