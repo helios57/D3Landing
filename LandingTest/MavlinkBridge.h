@@ -28,8 +28,6 @@ class MavlinkBridge {
 		mavlink_set_position_target_local_ned_t setpointAdjustment;
 		mavlink_highres_imu_t lastImu;
 		struct termios bridge_tio;
-		struct termios bridge_stdio;
-		struct termios bridge_old_stdio;
 		bool running;
 		bool connected;
 		int bridge_tty_fd;

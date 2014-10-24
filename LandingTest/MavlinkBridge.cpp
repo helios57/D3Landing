@@ -22,29 +22,10 @@ MavlinkBridge::~MavlinkBridge() {
 }
 void MavlinkBridge::close() {
 	::close(bridge_tty_fd);
-	tcsetattr(STDOUT_FILENO, TCSANOW, &bridge_old_stdio);
 	bridge_tty_fd = 0;
 	connected = false;
 }
 void MavlinkBridge::initStreams() {
-	if (tcgetattr(STDOUT_FILENO, &bridge_old_stdio) != 0) {
-		printf("tcgetattr(STDOUT_FILENO, &old_stdio)!= 0");
-		close();
-	}
-	memset(&bridge_stdio, 0, sizeof(bridge_stdio));
-	bridge_stdio.c_iflag = 0;
-	bridge_stdio.c_oflag = 0;
-	bridge_stdio.c_cflag = 0;
-	bridge_stdio.c_lflag = 0;
-	bridge_stdio.c_cc[VMIN] = 1;
-	bridge_stdio.c_cc[VTIME] = 0;
-	if (tcsetattr(STDOUT_FILENO, TCSANOW, &bridge_stdio) != 0) {
-		printf("tcsetattr(STDOUT_FILENO, TCSANOW, &stdio)!= 0");
-		close();
-	}
-	//Check if working
-	tcsetattr(STDOUT_FILENO, TCSAFLUSH, &bridge_stdio);
-	fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
 	memset(&bridge_tio, 0, sizeof(bridge_tio));
 	bridge_tio.c_iflag = 0;
 	bridge_tio.c_oflag = 0;
