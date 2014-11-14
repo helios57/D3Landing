@@ -15,9 +15,9 @@ struct timespec timer_start() {
 }
 
 // call this function to end a timer, returning milliseconds elapsed as a long
-long timer_end(struct timespec start_time) {
+long int timer_end(struct timespec start_time) {
 	struct timespec end_time;
 	clock_gettime(CLOCK_REALTIME, &end_time);
-	long diffInMillis = (end_time.tv_nsec / 1000) - (start_time.tv_nsec / 1000);
+	long int diffInMillis = (end_time.tv_nsec / 1000000) - (start_time.tv_nsec / 1000000);
 	return diffInMillis;
 }

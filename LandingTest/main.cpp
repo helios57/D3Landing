@@ -30,6 +30,7 @@ int main(int argc, char** argv) {
 	CascadeClassifier* face_cascade = new CascadeClassifier();
 	face_cascade->load("cascade.xml");
 
+	cout << "detectTime;midx;midy;x;y;width;height;roll;pitch;yaw" << endl;
 	do {
 		getNetxImage(vrmStatus);
 		getMostRecentImage(vrmStatus);
@@ -47,15 +48,15 @@ int main(int argc, char** argv) {
 			Mat mat = getMat(vrmStatus->p_source_img);
 			objs.clear();
 			timespec detectTimer = timer_start();
-			int detecteSize = 0;
+			//int detecteSize = 0;
 			for (int i = 512; i > 32; i /= 2) {
-				detecteSize = i;
+				//detecteSize = i;
 				face_cascade->detectMultiScale(mat, objs, 1.1, 2, 0, Size(i, i));
 				if (!objs.empty()) {
 					break;
 				}
 			}
-			long detectTime = timer_end(detectTimer);
+			long int detectTime = timer_end(detectTimer);
 
 			int height = vrmStatus->p_source_img->m_image_format.m_height;
 			int width = vrmStatus->p_source_img->m_image_format.m_width;
@@ -64,9 +65,14 @@ int main(int argc, char** argv) {
 				for (vector<Rect>::const_iterator r = objs.begin(); r != objs.end(); r++) {
 					int midX = r->x + r->width / 2 - width / 2;
 					int midY = r->y + r->height / 2 - height / 2;
-					cout << "found obj:";
-					cout << " midX=" << midX << " midY=" << midY;
-					cout << " x=" << r->x << " y=" << r->y << " widh=" << r->width << " height=" << r->height << endl;
+					mavlink_attitude_t attitude = mavlink.getAttitude();
+					//cout << "detectTime;midx;midy;x;y;width;height;roll;pitch;yaw";
+					cout << detectTime << ";" << midX << ";" << midY << ";" << r->x << ";" << r->y;
+					cout << ";" << r->width << ";" << r->height;
+					cout << ";" << attitude.roll << ";" << attitude.pitch << ";" << attitude.yaw;
+					cout << endl;
+
+					//cout << " x=" << r->x << " y=" << r->y << " widh=" << r->width << " height=" << r->height << endl;
 #ifdef LINUX
 					rectangle(mat, cvPoint(cvRound(r->x), cvRound(r->y)), cvPoint(cvRound((r->x + r->width - 1)), cvRound((r->y + r->height - 1))), color, 3, 8, 0);
 #endif
