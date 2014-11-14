@@ -71,6 +71,7 @@ int main(int argc, char** argv) {
 					cout << ";" << r->width << ";" << r->height;
 					cout << ";" << attitude.roll << ";" << attitude.pitch << ";" << attitude.yaw;
 					cout << endl;
+					mavlink.sendCorrection(midX * 0.0012f, midY * 0.0012f, 0.0f);
 
 					//cout << " x=" << r->x << " y=" << r->y << " widh=" << r->width << " height=" << r->height << endl;
 #ifdef LINUX
