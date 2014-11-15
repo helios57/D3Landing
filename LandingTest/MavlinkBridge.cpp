@@ -75,7 +75,9 @@ void MavlinkBridge::readFromStream() {
 			if (msg.msgid == MAVLINK_MSG_ID_STATUSTEXT) {
 				mavlink_statustext_t s;
 				mavlink_msg_statustext_decode(&msg, &s);
-				printf("status %s\n", s.text);
+				if (strstr(s.text, "recieved") == 0){
+					printf("status %s\n", s.text);
+				}
 			}
 			if (msg.msgid == MAVLINK_MSG_ID_ATTITUDE) {
 				mavlink_attitude_t at;

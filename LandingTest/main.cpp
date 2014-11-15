@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 	CascadeClassifier* face_cascade = new CascadeClassifier();
 	face_cascade->load("cascade.xml");
 
-	cout << "detectTime;midx;midy;x;y;width;height;roll;pitch;yaw;correctureX;correctureY" << endl;
+	cout << "detectTime;midx;midy;x;y;width;height;roll;pitch;yaw;correctureX;correctureY;localX;localY;localXSet;localYSet" << endl;
 	do {
 		getNetxImage(vrmStatus);
 		getMostRecentImage(vrmStatus);
@@ -72,6 +72,10 @@ int main(int argc, char** argv) {
 					cout << ";" << r->width << ";" << r->height;
 					cout << ";" << attitude.roll << ";" << attitude.pitch << ";" << attitude.yaw;
 					cout << ";" << corrX << ";" << corrY;
+					mavlink_local_position_ned_t lp = mavlink.getLocalPostition();
+					cout << ";" << lp.x << ";" << lp.y;
+					mavlink_position_target_local_ned_t lpt = mavlink.getLocalPositionTarget();
+					cout << ";" << lpt.x << ";" << lpt.y;
 					cout << endl;
 					mavlink.sendCorrection(corrX * 10, corrY * 10, 0.0f);
 #ifdef LINUX
