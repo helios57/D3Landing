@@ -27,6 +27,8 @@ class MavlinkBridge {
 		mavlink_status_t status;
 		mavlink_set_position_target_local_ned_t setpointAdjustment;
 		mavlink_attitude_t attitude;
+		mavlink_local_position_ned_t localPosition;
+		mavlink_position_target_local_ned_t localPositionTarget;
 		struct termios bridge_tio;
 		bool running;
 		bool connected;
@@ -46,6 +48,8 @@ class MavlinkBridge {
 		void start();
 		void stop();
 		mavlink_attitude_t getAttitude();
+		mavlink_local_position_ned_t getLocalPostition();
+		mavlink_position_target_local_ned_t getLocalPositionTarget();
 		void sendCorrection(float x, float y, float z);
 
 };

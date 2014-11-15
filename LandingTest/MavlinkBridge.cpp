@@ -82,6 +82,16 @@ void MavlinkBridge::readFromStream() {
 				mavlink_msg_attitude_decode(&msg, &at);
 				attitude = at;
 			}
+			if (msg.msgid == MAVLINK_MSG_ID_LOCAL_POSITION_NED) {
+				mavlink_local_position_ned_t localPosition_t;
+				mavlink_msg_local_position_ned_decode(&msg, &localPosition_t);
+				localPosition = localPosition_t;
+			}
+			if (msg.msgid == MAVLINK_MSG_ID_POSITION_TARGET_LOCAL_NED) {
+				mavlink_position_target_local_ned_t localPositionTarget_t;
+				mavlink_msg_position_target_local_ned_decode(&msg, &localPositionTarget_t);
+				localPositionTarget = localPositionTarget_t;
+			}
 		}
 	}
 }
@@ -111,6 +121,14 @@ void MavlinkBridge::threadMain() {
 		readFromStream();
 		this_thread::sleep_for(chrono::milliseconds(10));
 	}
+}
+
+mavlink_local_position_ned_t MavlinkBridge::getLocalPostition() {
+	return localPosition;
+}
+
+mavlink_position_target_local_ned_t MavlinkBridge::getLocalPositionTarget() {
+	return localPositionTarget;
 }
 
 void MavlinkBridge::sendCorrection(float x, float y, float z) {

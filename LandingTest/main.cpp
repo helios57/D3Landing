@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 	CascadeClassifier* face_cascade = new CascadeClassifier();
 	face_cascade->load("cascade.xml");
 
-	cout << "detectTime;midx;midy;x;y;width;height;roll;pitch;yaw" << endl;
+	cout << "detectTime;midx;midy;x;y;width;height;roll;pitch;yaw;correctureX;correctureY" << endl;
 	do {
 		getNetxImage(vrmStatus);
 		getMostRecentImage(vrmStatus);
@@ -66,13 +66,14 @@ int main(int argc, char** argv) {
 					int midX = r->x + r->width / 2 - width / 2;
 					int midY = r->y + r->height / 2 - height / 2;
 					mavlink_attitude_t attitude = mavlink.getAttitude();
-					//cout << "detectTime;midx;midy;x;y;width;height;roll;pitch;yaw";
+					float corrX = midX * 0.0012f - attitude.roll;
+					float corrY = midY * 0.0012f - attitude.pitch;
 					cout << detectTime << ";" << midX << ";" << midY << ";" << r->x << ";" << r->y;
 					cout << ";" << r->width << ";" << r->height;
 					cout << ";" << attitude.roll << ";" << attitude.pitch << ";" << attitude.yaw;
+					cout << ";" << corrX << ";" << corrY;
 					cout << endl;
-
-					//cout << " x=" << r->x << " y=" << r->y << " widh=" << r->width << " height=" << r->height << endl;
+					mavlink.sendCorrection(corrX * 10, corrY * 10, 0.0f);
 #ifdef LINUX
 					rectangle(mat, cvPoint(cvRound(r->x), cvRound(r->y)), cvPoint(cvRound((r->x + r->width - 1)), cvRound((r->y + r->height - 1))), color, 3, 8, 0);
 #endif
