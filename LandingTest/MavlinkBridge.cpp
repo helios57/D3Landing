@@ -35,21 +35,25 @@ void MavlinkBridge::initStreams() {
 	bridge_tio.c_cc[VTIME] = 5;
 	bridge_tty_fd = open("/dev/ttyACM0", O_RDWR | O_NONBLOCK);
 
-	if (bridge_tty_fd == 0) {
+	if (bridge_tty_fd <= 0) {
 		printf("open(\"/dev/ttyACM0\", O_RDWR | O_NONBLOCK)==0");
 		close();
+		return;
 	}
 	if (cfsetospeed(&bridge_tio, B57600) != 0) { // 115200 baud = B115200
 		printf("cfsetospeed(&tio, B115200)!= 0");
 		close();
+		return;
 	}
 	if (cfsetispeed(&bridge_tio, B57600) != 0) { // 115200 baud = B115200
 		printf("cfsetispeed(&tio, B115200)!= 0");
 		close();
+		return;
 	}
 	if (tcsetattr(bridge_tty_fd, TCSANOW, &bridge_tio) != 0) {
 		printf("tcsetattr(tty_fd, TCSANOW, &tio)!= 0");
 		close();
+		return;
 	}
 	char cmd[] = "sh /etc/init.d/rc.usb\n";
 	sleep(2);
