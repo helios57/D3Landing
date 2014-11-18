@@ -62,26 +62,41 @@ int main(int argc, char** argv) {
 			int width = vrmStatus->p_source_img->m_image_format.m_width;
 			//cout << "detectTime" << detectTime << "ms detectSize: " << detecteSize << endl;
 			if (objs.size() > 0) {
+				int maxX = 0;
+				int maxY = 0;
+				vector<Rect>::const_iterator max;
 				for (vector<Rect>::const_iterator r = objs.begin(); r != objs.end(); r++) {
-					int midX = r->x + r->width / 2 - width / 2;
-					int midY = r->y + r->height / 2 - height / 2;
-					mavlink_attitude_t attitude = mavlink.getAttitude();
-					float corrX = midX * 0.0012f - attitude.roll;
-					float corrY = midY * 0.0012f - attitude.pitch;
-					cout << detectTime << ";" << midX << ";" << midY << ";" << r->x << ";" << r->y;
-					cout << ";" << r->width << ";" << r->height;
-					cout << ";" << attitude.roll << ";" << attitude.pitch << ";" << attitude.yaw;
-					cout << ";" << corrX << ";" << corrY;
-					mavlink_local_position_ned_t lp = mavlink.getLocalPostition();
-					cout << ";" << lp.x << ";" << lp.y;
-					mavlink_position_target_local_ned_t lpt = mavlink.getLocalPositionTarget();
-					cout << ";" << lpt.x << ";" << lpt.y;
-					cout << endl;
-					mavlink.sendCorrection(corrX * 10, corrY * 10, 0.0f);
-#ifdef LINUX
-					rectangle(mat, cvPoint(cvRound(r->x), cvRound(r->y)), cvPoint(cvRound((r->x + r->width - 1)), cvRound((r->y + r->height - 1))), color, 3, 8, 0);
-#endif
+					if (r->width >= maxX && r->height >= maxY) {
+						maxX = r->width;
+						maxY = r->height;
+						max = r;
+					}
 				}
+#ifdef LINUX
+				for (vector<Rect>::const_iterator r = objs.begin(); r != objs.end(); r++) {
+					if (r != max) {
+						rectangle(mat, cvPoint(cvRound(r->x), cvRound(r->y)), cvPoint(cvRound((r->x + r->width - 1)), cvRound((r->y + r->height - 1))), CV_RGB(0, 0, 128), 1, 8, 0);
+					}
+				}
+#endif
+				int midX = max->x + max->width / 2 - width / 2;
+				int midY = max->y + max->height / 2 - height / 2;
+				mavlink_attitude_t attitude = mavlink.getAttitude();
+				float corrX = midX * 0.0012f - attitude.roll;
+				float corrY = midY * 0.0012f - attitude.pitch;
+				cout << detectTime << ";" << midX << ";" << midY << ";" << max->x << ";" << max->y;
+				cout << ";" << max->width << ";" << max->height;
+				cout << ";" << attitude.roll << ";" << attitude.pitch << ";" << attitude.yaw;
+				cout << ";" << corrX << ";" << corrY;
+				mavlink_local_position_ned_t lp = mavlink.getLocalPostition();
+				cout << ";" << lp.x << ";" << lp.y;
+				mavlink_position_target_local_ned_t lpt = mavlink.getLocalPositionTarget();
+				cout << ";" << lpt.x << ";" << lpt.y;
+				cout << endl;
+				mavlink.sendCorrection(corrX * 10, corrY * 10, 0.0f);
+#ifdef LINUX
+				rectangle(mat, cvPoint(cvRound(max->x), cvRound(max->y)), cvPoint(cvRound((max->x + max->width - 1)), cvRound((max->y + max->height - 1))), color, 3, 8, 0);
+#endif
 			}
 #ifdef LINUX
 			imshow("result", mat);
