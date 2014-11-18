@@ -82,8 +82,8 @@ int main(int argc, char** argv) {
 				int midX = max->x + max->width / 2 - width / 2;
 				int midY = max->y + max->height / 2 - height / 2;
 				mavlink_attitude_t attitude = mavlink.getAttitude();
-				float corrX = midX * 0.0012f - attitude.roll;
-				float corrY = midY * 0.0012f - attitude.pitch;
+				float corrX = midX * 0.0005f + attitude.roll;
+				float corrY = midY * 0.0005f + attitude.pitch;
 				cout << detectTime << ";" << midX << ";" << midY << ";" << max->x << ";" << max->y;
 				cout << ";" << max->width << ";" << max->height;
 				cout << ";" << attitude.roll << ";" << attitude.pitch << ";" << attitude.yaw;
