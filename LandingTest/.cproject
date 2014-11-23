@@ -60,6 +60,7 @@
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="vm_lib_armhf"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="opencv_core"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="opencv_objdetect"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="opencv_highgui"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="rt"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.652402791" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
