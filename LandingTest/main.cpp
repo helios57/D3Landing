@@ -93,10 +93,12 @@ int main(int argc, char** argv) {
 				mavlink_position_target_local_ned_t lpt = mavlink.getLocalPositionTarget();
 				cout << ";" << lpt.x << ";" << lpt.y;
 				cout << endl;
-				mavlink.sendCorrection(corrY * -1,corrX * 1, 0.0f);
+				mavlink.sendCorrection(corrY * -0.1, corrX * 0.1, 0.0f);
 #ifdef LINUX
 				rectangle(mat, cvPoint(cvRound(max->x), cvRound(max->y)), cvPoint(cvRound((max->x + max->width - 1)), cvRound((max->y + max->height - 1))), color, 3, 8, 0);
 #endif
+			} else {
+				mavlink.sendCorrection(0.0f, 0.0f, 0.0f);
 			}
 #ifdef LINUX
 			imshow("result", mat);
