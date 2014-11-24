@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
 	time(&starttime);
 	char datetime[80];
 	struct tm tstruct = *localtime(&starttime);
-	strftime(datetime, sizeof(datetime), "%Y%m%d%X", &tstruct);
+	strftime(datetime, sizeof(datetime), "%Y%m%d%H%M%S", &tstruct);
 	string dateTimeString = datetime;
 
 	ofstream logfile;
@@ -45,7 +45,12 @@ int main(int argc, char** argv) {
 	int height = vrmStatus->p_source_img->m_image_format.m_height;
 
 	Scalar color = CV_RGB(0, 0, 255);
-	VideoWriter videoOut(dateTimeString + ".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, Size(width, height), false);
+	//VideoWriter videoOut(dateTimeString + ".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, Size(width, height), false);
+	VideoWriter videoOut(dateTimeString + ".avi", -1, 10, Size(width, height), false);
+	if (!videoOut.isOpened()) {
+		cout << "VideoWriter could not be opened" << endl;
+		return -1;
+	}
 
 	logfile << "frameCounter;detectTime;midx;midy;x;y;width;height;roll;pitch;yaw;correctureX;correctureY;localX;localY;localXSet;localYSet" << endl;
 	do {
@@ -108,13 +113,12 @@ int main(int argc, char** argv) {
 				mavlink_position_target_local_ned_t lpt = mavlink.getLocalPositionTarget();
 				logfile << ";" << lpt.x << ";" << lpt.y;
 				logfile << endl;
-				mavlink.sendCorrection(corrY * -0.1, corrX * 0.1, 0.0f);
+				mavlink.sendCorrection(corrY * -1, corrX * 1, 0.0f);
 				rectangle(mat, cvPoint(cvRound(max->x), cvRound(max->y)), cvPoint(cvRound((max->x + max->width - 1)), cvRound((max->y + max->height - 1))), color, 3, 8, 0);
-				string frameCount = ""+vrmStatus->frame_counter;
-				putText(mat,frameCount,Point(20,20),FONT_HERSHEY_SCRIPT_SIMPLEX,2,color,2);
 			} else {
 				mavlink.sendCorrection(0.0f, 0.0f, 0.0f);
 			}
+			putText(mat, to_string(vrmStatus->frame_counter), Point(0, 30), FONT_HERSHEY_SCRIPT_SIMPLEX, 1, color);
 			videoOut.write(mat);
 #ifdef LINUX
 			imshow("result", mat);
