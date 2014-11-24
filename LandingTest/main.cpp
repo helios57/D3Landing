@@ -45,11 +45,9 @@ int main(int argc, char** argv) {
 	int height = vrmStatus->p_source_img->m_image_format.m_height;
 
 	Scalar color = CV_RGB(0, 0, 255);
-	//VideoWriter videoOut(dateTimeString + ".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, Size(width, height), false);
-	VideoWriter videoOut(dateTimeString + ".avi", -1, 10, Size(width, height), false);
+	VideoWriter videoOut(dateTimeString + ".avi", CV_FOURCC('M', 'J', 'P', 'G'), 10, Size(width, height), false);
 	if (!videoOut.isOpened()) {
 		cout << "VideoWriter could not be opened" << endl;
-		return -1;
 	}
 
 	logfile << "frameCounter;detectTime;midx;midy;x;y;width;height;roll;pitch;yaw;correctureX;correctureY;localX;localY;localXSet;localYSet" << endl;
